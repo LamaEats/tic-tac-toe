@@ -14,7 +14,7 @@ export const configureStore = (preloadState = {}) => {
   // eslint-disable-next-line no-undef
   if (__DEV__) {
     // eslint-disable-next-line no-underscore-dangle
-    compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
   }
 
   const mws = [thunk]
