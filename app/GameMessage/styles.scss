@@ -1,0 +1,53 @@
+.game-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  user-select: none;
+
+  &__wrapper {
+    width: 80vw;
+    max-width: 50vw;
+    background-color: #fff;
+    box-shadow: 0 0 12px -3px rgba(0, 0, 0, 0.4);
+    padding: 1em;
+  }
+
+  & h2 {
+    text-align: center;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  &__contorls {
+    display: flex;
+    justify-content: center;
+
+    & button+button {
+      margin-left: 1em;
+    }
+  }
+
+  &__button {
+    background-color: #ddd;
+    padding: .25em .5em;
+    font-size: .8em;
+    text-transform: lowercase;
+    font-weight: bold;
+
+    &_restart {
+      background-color: $main-text-color;
+      color: #fff;
+    }
+
+    &_cancel {
+      background-color: transparent;
+    }
+  }
+}

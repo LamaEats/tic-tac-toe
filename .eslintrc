@@ -1,0 +1,52 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "es2020": true
+  },
+  "extends": [
+    "airbnb-base",
+    "prettier"
+  ],
+  "parser": "babel-eslint",
+  "plugins": [
+    "import",
+    "react",
+    "react-hooks"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 11,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "classes": true,
+      "legacyDecorators": true,
+      "experimentalDecorators": true,
+      "jxs": true
+    }
+  },
+  "rules": {
+    "react/jsx-uses-react": 1,
+    "react/jsx-uses-vars": 1,
+    "react/react-in-jsx-scope": 1,
+    "max-len": [
+      "error",
+      {
+        "code": 120,
+        "tabWidth": 2
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      "only-multiline"
+    ],
+    "semi": "off",
+    "import/named": 2,
+    "import/prefer-default-export": 0,
+    "import/extensions": ["error", "never", {
+      "json": "always",
+      "svg": "always"
+    }],
+    "import/no-unresolved": "off",
+    "import/export": 0
+  }
+}
