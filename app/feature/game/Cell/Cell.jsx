@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
-import { getCoordValue, switchPlayer, setToMap, useActionMap } from '../store'
-import './styles.scss'
-import { CROSS, ZEROS } from '../constants'
+import { getCoordValue, switchPlayer, setToMap, useActionMap } from '../../../store'
+import { CROSS, ZEROS } from '../../../constants'
 import { CrossIcon } from './CrossIcon'
 import { ZeroIcon } from './ZeroIcon'
+import './styles.scss'
 
 const Icons = {
   [CROSS]: CrossIcon,

@@ -1,15 +1,32 @@
 import {
-  gameModule
+  gameModule,
+  countModule
 } from "./store"
 import {
   CROSS,
   ZEROS
 } from "../constants"
+import {
+  parseHashKey,
+  getHashKey
+} from "../utils"
 
 const {
   set,
   get
 } = gameModule
+
+export const incrementWinCount = () => (dispatch, getState) => {
+  const state = getState()
+  const winner = get.winner(state)
+  if (winner == null) {
+    return
+  }
+
+  const count = countModule.get[winner](state)
+
+  dispatch(countModule.set[winner](count + 1))
+}
 
 export const confirmReset = (confirmed) => (dispatch) => {
   if (confirmed) {
@@ -28,7 +45,7 @@ export const checkWinner = () => (dispatch, getState) => {
   const map = get.map(state)
   const lastCoords = get.lastCoord(state)
   const marker = map[lastCoords]
-  const [x, y] = lastCoords.split(':')
+  const [x, y] = parseHashKey(lastCoords)
 
   const from = {
     x: 0,
@@ -41,7 +58,7 @@ export const checkWinner = () => (dispatch, getState) => {
 
   // by vertical
   for (let fromX = from.x, countMarkers = 0; fromX <= to.x; fromX += 1) {
-    if (map[`${fromX}:${y}`] === marker) {
+    if (map[getHashKey(fromX, y)] === marker) {
       countMarkers += 1;
     }
 
@@ -53,7 +70,7 @@ export const checkWinner = () => (dispatch, getState) => {
 
   // by horizontal
   for (let fromY = from.y, countMarkers = 0; fromY <= to.y; fromY += 1) {
-    if (map[`${x}:${fromY}`] === marker) {
+    if (map[getHashKey(x, fromY)] === marker) {
       countMarkers += 1;
     }
 
@@ -66,7 +83,7 @@ export const checkWinner = () => (dispatch, getState) => {
   for (
     let fromY = from.y, fromX = from.x, countMarkers = 0; fromY <= to.y && fromX <= to.x; fromY += 1, fromX += 1
   ) {
-    if (map[`${fromX}:${fromY}`] === marker) {
+    if (map[getHashKey(fromX, fromY)] === marker) {
       countMarkers += 1;
     }
 
@@ -79,7 +96,7 @@ export const checkWinner = () => (dispatch, getState) => {
   for (
     let fromY = from.y, fromX = to.x, countMarkers = 0; fromY <= to.y && fromX >= from.x; fromY += 1, fromX -= 1
   ) {
-    if (map[`${fromX}:${fromY}`] === marker) {
+    if (map[getHashKey(fromX, fromY)] === marker) {
       countMarkers += 1;
     }
 

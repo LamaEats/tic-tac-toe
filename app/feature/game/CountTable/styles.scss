@@ -1,0 +1,18 @@
+.count-table {
+  display: flex;
+  justify-content: space-around;
+  width: $sizeString;
+
+  &__item {
+    text-align: center;
+
+    & p {
+      margin: 0;
+
+      &:last-child {
+        font-size: $baseFontSize;
+        font-weight: bold;
+      }
+    }
+  }
+}

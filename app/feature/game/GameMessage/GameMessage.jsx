@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { useSelectorMap, gameModule, useActionMap, confirmReset } from '../store'
+import { useSelectorMap, gameModule, useActionMap, confirmReset } from '../../../store'
 import './styles.scss'
 
 export const GameMessage = () => {
   const { moves, winner } = useSelectorMap({
     moves: gameModule.get.moves,
-    winner: gameModule.get.winner
+    winner: gameModule.get.winner,
   })
 
   const [isGameEnded, setEnd] = useState(false)
@@ -31,10 +31,9 @@ export const GameMessage = () => {
   }
 
   const onClickHandler = (confirmed) => {
-    if (confirmed) {
-      confirmRestart(confirmed)
-    }
-    else {
+    confirmRestart(confirmed)
+
+    if (!confirmed) {
       setEnd(false)
     }
   }

@@ -11,7 +11,7 @@ const devMode = !NODE_ENV || NODE_ENV !== 'production'
 
 module.exports = {
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.css', '.scss'],
     modules: [path.resolve(__dirname, 'app'), 'node_modules', path.resolve('node_modules')],
   },
   entry: './app/index.jsx',

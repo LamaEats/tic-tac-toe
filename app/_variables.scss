@@ -1,1 +1,10 @@
-$aseFontSize: 2em;
+$baseFontSize: 2em;
+$cellSize: 20;
+$cellCount: 3;
+$sideSize: $cellSize * $cellCount;
+
+$cell: 'min(#{$cellSize}vh, #{$cellSize}vw)';
+$side: 'min(#{$sideSize}vh, #{$sideSize}vw)';
+
+$cellString: #{$cell};
+$sizeString: #{$side};

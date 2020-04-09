@@ -6,7 +6,8 @@ import {
 } from 'redux'
 import thunk from 'redux-thunk'
 import {
-  gameModule
+  gameModule,
+  countModule
 } from './store'
 
 export const configureStore = (preloadState = {}) => {
@@ -24,6 +25,7 @@ export const configureStore = (preloadState = {}) => {
   )
 
   return createStore(combineReducers({
-    [gameModule]: gameModule.reducer
+    [gameModule]: gameModule.reducer,
+    [countModule]: countModule.reducer
   }), preloadState, enhancers)
 }

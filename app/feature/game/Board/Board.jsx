@@ -1,15 +1,16 @@
 import React, { useLayoutEffect } from 'react'
-import { Wrapper } from '../Wrapper'
+import { Wrapper } from '../../../layouts/Wrapper'
+import { gameModule, useSelectorMap, checkWinner, confirmReset, useActionMap } from '../../../store'
+import { getHashKey } from '../../../utils'
 import { Cell } from '../Cell'
 import { GameMessage } from '../GameMessage'
-import { gameModule, useSelectorMap, checkWinner, confirmReset, useActionMap } from '../store'
+import { CountTable } from '../CountTable'
 import './styles.scss'
-
 
 const { get } = gameModule
 
 const grid = Array(3).fill(Array(3).fill(null))
-  .map((array, i) => array.map((_, j) => `${i}:${j}`))
+  .map((array, i) => array.map((_, j) => getHashKey(i, j)))
   .reduce((acc, array) => {
     acc.push(...array)
 
@@ -21,7 +22,7 @@ export const Board = () => {
     marker,
     moves,
     winner,
-    lastCoord
+    lastCoord,
   } = useSelectorMap({
     marker: get.currentMove,
     moves: get.moves,
@@ -47,6 +48,7 @@ export const Board = () => {
       <h2 className="board__title">
         <b>{viewedMarker}</b> {winner != null ? 'wins' : 'turns'}
       </h2>
+      <CountTable />
       <Wrapper>
         {grid.map((coord) => <Cell coord={coord} key={coord} disabled={winner != null} />)}
       </Wrapper>
