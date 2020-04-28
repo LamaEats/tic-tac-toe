@@ -1,11 +1,15 @@
 import React, { useLayoutEffect } from 'react'
-import { Wrapper } from '../../../layouts/Wrapper'
+import { Wrapper } from '../../../layouts'
 import { gameModule, useSelectorMap, checkWinner, confirmReset, useActionMap } from '../../../store'
 import { getHashKey } from '../../../utils'
 import { Cell } from '../Cell'
 import { GameMessage } from '../GameMessage'
 import { CountTable } from '../CountTable'
 import './styles.scss'
+
+import { withHashed } from '../../KeyboardContol/KeybordControl'
+
+const ContolCell = withHashed(Cell)
 
 const { get } = gameModule
 
@@ -50,7 +54,7 @@ export const Board = () => {
       </h2>
       <CountTable />
       <Wrapper>
-        {grid.map((coord) => <Cell coord={coord} key={coord} disabled={winner != null} />)}
+        {grid.map((coord) => <ContolCell coord={coord} key={coord} disabled={winner != null} />)}
       </Wrapper>
       <GameMessage />
     </div>

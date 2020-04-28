@@ -1,1 +1,4 @@
-export * from './CountTable'
+export {
+  CountTable
+}
+from './CountTable'

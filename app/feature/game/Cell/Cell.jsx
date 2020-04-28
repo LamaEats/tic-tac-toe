@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, forwardRef } from 'react'
 import { useSelector } from 'react-redux'
 import { getCoordValue, switchPlayer, setToMap, useActionMap } from '../../../store'
 import { CROSS, ZEROS } from '../../../constants'
@@ -11,7 +11,7 @@ const Icons = {
   [ZEROS]: ZeroIcon
 }
 
-export const Cell = ({ coord, disabled }) => {
+export const Cell = forwardRef(function Cell({ coord, disabled }, ref) {
   const actions = useActionMap({
     setToMap,
     switchPlayer
@@ -29,8 +29,8 @@ export const Cell = ({ coord, disabled }) => {
 
   const Icon = Icons[marker] || (() => null)
 
-  return <div className="cell">
-    <button disabled={disabled} className="cell__button" onClick={onClickHandler}></button>
+  return <div className="cell" ref={ref} tabIndex="-1" onClick={onClickHandler}>
+    {/* <button disabled={disabled} className="cell__button" tabIndex="-1"></button> */}
     <Icon />
   </div>
-}
+})

@@ -14,10 +14,24 @@ module.exports = {
     extensions: ['.js', '.jsx', '.css', '.scss'],
     modules: [path.resolve(__dirname, 'app'), 'node_modules', path.resolve('node_modules')],
   },
-  entry: './app/index.jsx',
+  entry: {
+    app: './app/index.jsx',
+    vendors: ['react', 'react-dom', 'redux', 'react-redux']
+  },
   output: {
     path: path.posix.join(__dirname, 'dist'),
     filename: 'tic-tac-toe.js',
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
   },
   devServer: {
     clientLogLevel: 'warning',
@@ -46,7 +60,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new CopyWebpackPlugin([{
       from: path.resolve(__dirname, './static'),
-      to: '/',
+      to: './',
       ignore: ['.*'],
     }]),
     new MiniCssExtractPlugin({

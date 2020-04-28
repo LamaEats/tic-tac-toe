@@ -46,12 +46,14 @@ export const GameMessage = () => {
           <button
             className="game-message__button game-message__button_restart"
             onClick={() => onClickHandler(true)}
+            tabIndex="-1"
           >
             Restart
           </button>
           <button
             className="game-message__button game-message__button_cancel"
             onClick={() => onClickHandler(false)}
+            tabIndex="-1"
           >
             Cancel
           </button>
