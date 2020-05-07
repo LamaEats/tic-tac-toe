@@ -1,6 +1,6 @@
 import {
   createSelector
-} from "./storeMediator";
+} from "../lib/mediator/mediator";
 import {
   gameModule
 } from "./store";
@@ -9,4 +9,4 @@ const {
   get
 } = gameModule
 
-export const getCoordValue = value => state => createSelector(state, get.map, map => map[value] || null)
+export const getCoordValue = value => createSelector([get.map], map => (map[value] || null))

@@ -2,8 +2,9 @@ import {
   useSelector,
   useDispatch
 } from "react-redux"
+import { AnyAction } from "redux"
 
-const useHookMapper = (fn) => (map = {}) => {
+const useHookMapper = (fn) => (map) => {
   const mapKeys = Object.keys(map)
 
   if (!mapKeys.length) {
@@ -37,9 +38,9 @@ const useHookMapper = (fn) => (map = {}) => {
 }
 
 
-const useActions = fn => {
+const useActions = (fn: (...args: any[]) => AnyAction ) => {
   const dispatch = useDispatch()
-  return (...args) => dispatch(fn(...args))
+  return (...args: any[]) => dispatch(fn(...args))
 }
 
 export const useSelectorMap = (map) => {

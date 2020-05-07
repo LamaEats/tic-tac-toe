@@ -1,15 +1,18 @@
 {
     "presets": [
-        ["@babel/preset-env", {
-            "targets": {
+        [
+            "@babel/preset-env", {
+                "targets": {
                 "chrome": "58",
                 "esmodules": true
             }
         }],
-        "@babel/preset-react"
+        "@babel/preset-react",
+        "@babel/preset-typescript"
     ],
     "plugins": [
         "@babel/plugin-syntax-dynamic-import",
+        "@babel/plugin-proposal-optional-chaining",
         ["@babel/plugin-proposal-decorators", { "legacy": true }],
         ["@babel/plugin-proposal-class-properties", { "loose": true }]
     ]

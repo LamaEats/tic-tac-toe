@@ -1,25 +1,23 @@
 import React, { useLayoutEffect } from 'react'
 import { Wrapper } from '../../../layouts'
-import { gameModule, useSelectorMap, checkWinner, confirmReset, useActionMap } from '../../../store'
+import { gameModule, gameSettings, useSelectorMap, checkWinner, confirmReset, useActionMap } from '../../../store'
 import { getHashKey } from '../../../utils'
 import { Cell } from '../Cell'
 import { GameMessage } from '../GameMessage'
 import { CountTable } from '../CountTable'
 import './styles.scss'
 
-import { withHashed } from '../../KeyboardContol/KeybordControl'
-
-const ContolCell = withHashed(Cell)
-
 const { get } = gameModule
 
-const grid = Array(3).fill(Array(3).fill(null))
-  .map((array, i) => array.map((_, j) => getHashKey(i, j)))
+const grid = (fieldSize: number): string[] => Array(fieldSize).fill(Array(fieldSize).fill(null))
+  .map((array, i) => array.map((_: any, j: number) => getHashKey(j, i)))
   .reduce((acc, array) => {
     acc.push(...array)
 
     return acc
   }, [])
+
+const movesForWin = (fieldSize: number) => fieldSize * 2 - 1
 
 export const Board = () => {
   const {
@@ -27,11 +25,13 @@ export const Board = () => {
     moves,
     winner,
     lastCoord,
+    size,
   } = useSelectorMap({
     marker: get.currentMove,
     moves: get.moves,
     winner: get.winner,
     lastCoord: get.lastCoord,
+    size: gameSettings.get.side,
   })
 
   const actions = useActionMap({
@@ -40,10 +40,10 @@ export const Board = () => {
   })
 
   useLayoutEffect(() => {
-    if (moves >= 5 && winner == null) {
-      actions.checkWinner()
+    if (moves >= movesForWin(size) && winner == null) {
+      actions.checkWinner(size)
     }
-  }, [lastCoord, winner])
+  }, [lastCoord, winner, size])
 
   const viewedMarker = winner || marker
 
@@ -53,10 +53,10 @@ export const Board = () => {
         <b>{viewedMarker}</b> {winner != null ? 'wins' : 'turns'}
       </h2>
       <CountTable />
-      <Wrapper>
-        {grid.map((coord) => <ContolCell coord={coord} key={coord} disabled={winner != null} />)}
+      <Wrapper size={size}>
+        {grid(size).map((coord) => <Cell coord={coord} key={coord} />)}
       </Wrapper>
-      <GameMessage />
+      <GameMessage maxCount={size ** 2} />
     </div>
   )
 }

@@ -1,22 +1,30 @@
 import {
   createModule
-} from './storeMediator'
-import {
-  CROSS,
-  ZEROS
-} from '../constants'
+} from '../lib/mediator/mediator'
+import { player } from '../types/app'
 
-export const gameModule = createModule('tic-tac-toe', {
+const NAMESPACE = 'tic-tac-toe'
+
+const bindToNS = ([s]) => `${NAMESPACE}/${s}`
+
+export const gameModule = createModule(NAMESPACE, {
   winner: null,
   moves: 0,
   lastCoord: null,
   gameIsOver: false,
   map: {},
-  currentMove: CROSS,
+  currentMove: player.CROSS,
   isRestartStopped: false,
 })
 
-export const countModule = createModule('tic-tac-toe/count', {
-  [CROSS]: 0,
-  [ZEROS]: 0,
+export const countModule = createModule(bindToNS`count`, {
+  [player.CROSS]: 0,
+  [player.ZEROS]: 0,
+})
+
+export const gameSettings = createModule(bindToNS `settings`, {
+  /* eslint-disable no-undef */
+  side: __SIDE_SIZE__ || 3,
+  line: __LINE_SIZE__ || 3,
+  /* eslint-enable no-undef */
 })

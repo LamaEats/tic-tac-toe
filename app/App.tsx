@@ -6,7 +6,7 @@ import { KeybordControl } from './feature/KeyboardContol/KeybordControl'
 
 const store = configureStore()
 
-export const App = () => (
+export const App: React.FC = () => (
   <Provider store={store}>
     <KeybordControl>
       <Board />

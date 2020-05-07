@@ -40,7 +40,7 @@ export const incrementMove = () => (dispatch, getState) => {
   dispatch(set.moves(turn + 1))
 }
 
-export const checkWinner = () => (dispatch, getState) => {
+export const checkWinner = (maxCoord) => (dispatch, getState) => {
   const state = getState()
   const map = get.map(state)
   const lastCoords = get.lastCoord(state)
@@ -62,7 +62,7 @@ export const checkWinner = () => (dispatch, getState) => {
       countMarkers += 1;
     }
 
-    if (countMarkers === 3) {
+    if (countMarkers === maxCoord) {
       return dispatch(set.winner(marker))
 
     }
@@ -74,7 +74,7 @@ export const checkWinner = () => (dispatch, getState) => {
       countMarkers += 1;
     }
 
-    if (countMarkers === 3) {
+    if (countMarkers === maxCoord) {
       return dispatch(set.winner(marker))
     }
   }
@@ -87,7 +87,7 @@ export const checkWinner = () => (dispatch, getState) => {
       countMarkers += 1;
     }
 
-    if (countMarkers === 3) {
+    if (countMarkers === maxCoord) {
       return dispatch(set.winner(marker))
     }
   }
@@ -100,7 +100,7 @@ export const checkWinner = () => (dispatch, getState) => {
       countMarkers += 1;
     }
 
-    if (countMarkers === 3) {
+    if (countMarkers === maxCoord) {
       return dispatch(set.winner(marker))
     }
   }
@@ -113,7 +113,7 @@ export const switchPlayer = () => (dispatch, getState) => {
 
   const turn = get.moves(getState())
 
-  const nextPlayer = turn % 2 === 0 ? CROSS : ZEROS
+  const nextPlayer = (turn % 2 === 0 ? CROSS : ZEROS).toUpperCase()
 
   dispatch(set.currentMove(nextPlayer))
 }

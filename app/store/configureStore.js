@@ -5,10 +5,7 @@ import {
   combineReducers
 } from 'redux'
 import thunk from 'redux-thunk'
-import {
-  gameModule,
-  countModule
-} from './store'
+import * as modules from './store'
 
 export const configureStore = (preloadState = {}) => {
   let compose = reduxCompose
@@ -24,8 +21,12 @@ export const configureStore = (preloadState = {}) => {
     applyMiddleware(...mws)
   )
 
-  return createStore(combineReducers({
-    [gameModule]: gameModule.reducer,
-    [countModule]: countModule.reducer
-  }), preloadState, enhancers)
+  const redusers = Object.keys(modules).reduce((acc, moduleName) => {
+    const module = modules[moduleName]
+
+    acc[module] = module.reducer
+    return acc
+  }, {})
+
+  return createStore(combineReducers(redusers), preloadState, enhancers)
 }
