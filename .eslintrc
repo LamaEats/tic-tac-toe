@@ -5,11 +5,12 @@
     "es2020": true
   },
   "extends": [
-    "airbnb-base",
+    "airbnb-typescript",
     "prettier"
   ],
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "plugins": [
+    "@typescript-eslint",
     "import",
     "react",
     "react-hooks"
@@ -22,7 +23,8 @@
       "legacyDecorators": true,
       "experimentalDecorators": true,
       "jxs": true
-    }
+    },
+    "project": "./tsconfig.json"
   },
   "rules": {
     "react/jsx-uses-react": 1,

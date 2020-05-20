@@ -1,17 +1,17 @@
-import { Selector } from './typings'
+import { Selector } from './typings';
 
 export function createSelector<S, R, T>(selectors: (Selector<S, R>)[], resultFn: (...res: R[]) => T) {
   const selector = (state: S, ...rest: any[]) => {
-    const params = []
+    const params = [];
 
     for (let i = 0; i < selectors.length; i += 1) {
-      params.push(selectors[i](state, ...rest))
+      params.push(selectors[i](state, ...rest));
     }
 
-    return resultFn(...params)
-  }
+    return resultFn(...params);
+  };
 
-  selector.resultFn = resultFn
+  selector.resultFn = resultFn;
 
-  return selector
+  return selector;
 }

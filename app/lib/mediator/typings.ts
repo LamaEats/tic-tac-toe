@@ -21,9 +21,9 @@ export interface Selector<S, R> {
 
 type FieldGetters<S, N extends string> = {
   [K in keyof S]: Selector<Record<N, S>, S[K]>;
-}
+};
 
-export type Getters<S, N extends string> = Selector<Record<N, S>, S> & FieldGetters<S, N>
+export type Getters<S, N extends string> = Selector<Record<N, S>, S> & FieldGetters<S, N>;
 
 export interface PayloadCreator<T> {
   (arg: T): T extends void ? void : Payload<T>
@@ -31,7 +31,7 @@ export interface PayloadCreator<T> {
 
 export type Actions<S> = {
   [K in keyof S]: ActionCreator<S[K]>
-} & { reset: ActionCreator<void> }
+} & { reset: ActionCreator<void> };
 
 export interface Reducer<S, A extends Action = AnyAction<S[keyof S]>> {
   (state: S, action: A): S
@@ -41,7 +41,7 @@ export type Handlers<S> = {
   [key: string]: Reducer<S, ReturnType<ActionCreator<S[keyof S]>>>
 } & {
   reset: Reducer<S, ReturnType<ActionCreator<void>>>
-}
+};
 
 export interface Module<S, N extends string> {
   get: Getters<S, N>,

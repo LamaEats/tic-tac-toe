@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { gameModule, confirmReset } from '../../../store'
-import { useActionMap, useSelectorMap } from '../../../lib/hooks/hooks'
-import './styles.scss'
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { gameModule, confirmReset } from '../../../store';
+import { useActionMap, useSelectorMap } from '../../../lib/hooks/hooks';
+import './styles.scss';
 
 export interface GameMessageProps {
   maxCount: number
@@ -11,40 +11,40 @@ export const GameMessage: React.FC<GameMessageProps> = ({ maxCount }) => {
   const { moves, winner } = useSelectorMap({
     moves: gameModule.get.moves,
     winner: gameModule.get.winner,
-  })
+  });
 
-  const btnOk = useRef(null)
-  const btnCancel = useRef(null)
+  const btnOk = useRef(null);
+  const btnCancel = useRef(null);
 
-  const [isGameEnded, setEnd] = useState(false)
+  const [isGameEnded, setEnd] = useState(false);
 
   const { confirmRestart } = useActionMap({
     confirmRestart: confirmReset
-  })
+  });
 
   useEffect(() => {
-    setEnd(moves === maxCount || winner != null)
+    setEnd(moves === maxCount || winner != null);
 
-    return () => setEnd(false)
-  }, [moves, winner])
+    return () => setEnd(false);
+  }, [moves, winner]);
 
 
-  let message = 'Turns off. Restart?'
+  let message = 'Turns off. Restart?';
 
   if (winner) {
-    message = `The winner is ${winner}! Restart?`
+    message = `The winner is ${winner}! Restart?`;
   }
 
   const onClickHandler = useCallback((confirmed) => {
-    confirmRestart(confirmed)
+    confirmRestart(confirmed);
 
     if (!confirmed) {
-      setEnd(false)
+      setEnd(false);
     }
-  }, [confirmRestart, setEnd])
+  }, [confirmRestart, setEnd]);
 
   if (!isGameEnded) {
-    return null
+    return null;
   }
 
   return (
@@ -71,5 +71,5 @@ export const GameMessage: React.FC<GameMessageProps> = ({ maxCount }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

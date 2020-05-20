@@ -11,7 +11,7 @@ export enum Module {
 
 export type HistoryMap = {
   [key: string]: player
-}
+};
 
 export interface State {
   [Module.Main]: {

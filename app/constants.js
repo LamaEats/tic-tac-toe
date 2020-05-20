@@ -1,2 +1,2 @@
-export const CROSS = 'cross'
-export const ZEROS = 'zeros'
+export const CROSS = 'cross';
+export const ZEROS = 'zeros';

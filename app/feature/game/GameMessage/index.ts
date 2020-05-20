@@ -1,1 +1,1 @@
-export { GameMessage } from './GameMessage'
+export { GameMessage } from './GameMessage';

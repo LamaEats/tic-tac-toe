@@ -1,10 +1,10 @@
-import React from 'react'
-import { Provider } from 'react-redux'
-import { Board } from './feature'
-import { configureStore } from './store'
-import { KeybordControl } from './feature/KeyboardContol/KeybordControl'
+import React from 'react';
+import { Provider } from 'react-redux';
+import { Board } from './feature';
+import { configureStore } from './store';
+import { KeybordControl } from './feature/KeyboardContol/KeybordControl';
 
-const store = configureStore()
+const store = configureStore();
 
 export const App: React.FC = () => (
   <Provider store={store}>
@@ -12,4 +12,4 @@ export const App: React.FC = () => (
       <Board />
     </KeybordControl>
   </Provider>
-)
+);
