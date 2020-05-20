@@ -62,7 +62,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --progress --watch",
-    "dev": "webpack-dev-server --progress --env.size=5 --env.line=5",
+    "dev": "webpack-dev-server --progress",
     "build": "webpack --progess --mode=production",
     "start": "npm run dev",
     "lint": "eslint \"app/**/*.js\" \"app/**/*.jsx\""

@@ -1,4 +1,0 @@
-export {
-  GameMessage
-}
-from './GameMessage'

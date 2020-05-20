@@ -11,10 +11,10 @@ enum keyEvent {
   Enter = 'Enter'
 }
 
-export interface Hash {
-  register: (key: string, ref: React.RefObject<HTMLElement>) => void
-  map: Map<string, React.RefObject<HTMLElement>>
-  element: (key: string) => React.RefObject<HTMLElement>
+interface Hash {
+  register: (key: string, ref: React.RefObject<HTMLElement>) => void,
+  element: (key: string) => React.RefObject<HTMLElement>,
+  map: Map<string, React.RefObject<HTMLElement>>,
 }
 
 const hash: Hash = (() => {
@@ -53,7 +53,7 @@ const KeybordHandler: React.FC = ({ children }) => {
       return
     }
 
-    let [x, y] = parseHashKey(focused)
+    let [x, y] = parseHashKey(focused!)
 
     if (code === keyEvent.ArrowDown) {
       y = y + 1 > size ? size : y + 1
@@ -117,6 +117,5 @@ export const withHashed = <P extends { coord: string }>(WrappedComponent: React.
     }
   }, [ctx, cellRef])
 
-  // @ts-ignore
   return <WrappedComponent {...props} ref={cellRef} />
 }

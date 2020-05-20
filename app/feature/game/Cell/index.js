@@ -1,4 +1,0 @@
-export {
-  Cell
-}
-from './Cell'

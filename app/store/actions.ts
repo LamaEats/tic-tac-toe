@@ -1,22 +1,15 @@
-import {
-  gameModule,
-  countModule
-} from "./store"
-import {
-  CROSS,
-  ZEROS
-} from "../constants"
-import {
-  parseHashKey,
-  getHashKey
-} from "../utils"
+import { gameModule, countModule } from "./store"
+import { parseHashKey, getHashKey } from "../utils"
+import { ThunkAction as ReduxThunkAction } from 'redux-thunk'
+import { State, player } from '../types/app'
+import { Action } from '../lib'
 
-const {
-  set,
-  get
-} = gameModule
+type ThunkAction<S, A extends Action> = ReduxThunkAction<void, S, void, A>
+type GameThunkAction = ThunkAction<State, typeof gameModule.set>
 
-export const incrementWinCount = () => (dispatch, getState) => {
+const { set, get } = gameModule
+
+export const incrementWinCount = (): ThunkAction<State, typeof countModule.set> => (dispatch, getState) => {
   const state = getState()
   const winner = get.winner(state)
   if (winner == null) {
@@ -28,19 +21,19 @@ export const incrementWinCount = () => (dispatch, getState) => {
   dispatch(countModule.set[winner](count + 1))
 }
 
-export const confirmReset = (confirmed) => (dispatch) => {
+export const confirmReset = (confirmed: boolean): GameThunkAction => (dispatch) => {
   if (confirmed) {
-    dispatch(set.resetState())
+    dispatch(set.reset())
   }
 }
 
-export const incrementMove = () => (dispatch, getState) => {
+export const incrementMove = (): GameThunkAction => (dispatch, getState) => {
   const turn = get.moves(getState())
 
   dispatch(set.moves(turn + 1))
 }
 
-export const checkWinner = (maxCoord) => (dispatch, getState) => {
+export const checkWinner = (maxMoves: number): GameThunkAction => (dispatch, getState) => {
   const state = getState()
   const map = get.map(state)
   const lastCoords = get.lastCoord(state)
@@ -62,9 +55,9 @@ export const checkWinner = (maxCoord) => (dispatch, getState) => {
       countMarkers += 1;
     }
 
-    if (countMarkers === maxCoord) {
-      return dispatch(set.winner(marker))
-
+    if (countMarkers === maxMoves) {
+      dispatch(set.winner(marker))
+      return
     }
   }
 
@@ -74,8 +67,9 @@ export const checkWinner = (maxCoord) => (dispatch, getState) => {
       countMarkers += 1;
     }
 
-    if (countMarkers === maxCoord) {
-      return dispatch(set.winner(marker))
+    if (countMarkers === maxMoves) {
+      dispatch(set.winner(marker))
+      return
     }
   }
 
@@ -87,8 +81,9 @@ export const checkWinner = (maxCoord) => (dispatch, getState) => {
       countMarkers += 1;
     }
 
-    if (countMarkers === maxCoord) {
-      return dispatch(set.winner(marker))
+    if (countMarkers === maxMoves) {
+      dispatch(set.winner(marker))
+      return
     }
   }
 
@@ -100,25 +95,24 @@ export const checkWinner = (maxCoord) => (dispatch, getState) => {
       countMarkers += 1;
     }
 
-    if (countMarkers === maxCoord) {
-      return dispatch(set.winner(marker))
+    if (countMarkers === maxMoves) {
+      dispatch(set.winner(marker))
+      return
     }
   }
-
-  return null
 }
 
-export const switchPlayer = () => (dispatch, getState) => {
+export const switchPlayer = (): GameThunkAction => (dispatch, getState) => {
   dispatch(incrementMove())
 
   const turn = get.moves(getState())
 
-  const nextPlayer = (turn % 2 === 0 ? CROSS : ZEROS).toUpperCase()
+  const nextPlayer = (turn % 2 === 0 ? player.CROSS : player.ZEROS).toUpperCase()
 
   dispatch(set.currentMove(nextPlayer))
 }
 
-export const setToMap = (coord) => (dispatch, getState) => {
+export const setToMap = (coord: string): GameThunkAction => (dispatch, getState) => {
   const state = getState()
   const map = get.map(state)
   const marker = get.currentMove(state)

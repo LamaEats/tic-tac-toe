@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import { useSelectorMap, countModule, gameModule, useActionMap, incrementWinCount } from '../../../store'
+import { countModule, gameModule, incrementWinCount } from '../../../store'
+import { useActionMap, useSelectorMap } from '../../../lib/hooks/hooks'
 import { CountTableItem } from './CountTableItem'
 import './styles.scss'
 import { State, player } from '../../../types/app'
@@ -11,17 +12,14 @@ export const CountTable: React.FC = () => {
   } = useSelectorMap({
     counts: (state: State) => [
       {
-        // @ts-ignore
         count: countModule.get[player.CROSS](state),
         type: player.CROSS
       },
       {
-        // @ts-ignore
         count: countModule.get[player.ZEROS](state),
         type: player.ZEROS
       }
     ],
-    // @ts-ignore
     winner: gameModule.get.winner
   })
 

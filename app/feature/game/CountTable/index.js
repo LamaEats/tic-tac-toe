@@ -1,4 +1,0 @@
-export {
-  CountTable
-}
-from './CountTable'

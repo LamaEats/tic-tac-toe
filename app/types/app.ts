@@ -3,12 +3,18 @@ export enum player {
   ZEROS = 'ZEROS'
 }
 
+export enum Module {
+  Main = 'tic-tac-toe',
+  Count = 'tic-tac-toe/count',
+  Settings = 'tic-tac-toe/settings'
+}
+
 export type HistoryMap = {
   [key: string]: player
 }
 
 export interface State {
-  'tic-tac-toe': {
+  [Module.Main]: {
     winner: player | null,
     moves: number,
     lastCoord: string | null,
@@ -17,14 +23,12 @@ export interface State {
     currentMove: player.CROSS,
     isRestartStopped: boolean,
   },
-  'tic-tac-toe/count': {
+  [Module.Count]: {
     [P in player]: number
   },
-  'tic-tac-toe/settings': {
+  [Module.Settings]: {
     size: number,
     line: number,
   },
-  [key: string]: {
-    
-  }
+  [key: string]: any
 }

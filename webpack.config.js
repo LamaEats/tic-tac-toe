@@ -8,8 +8,6 @@ const {
   NODE_ENV
 } = process.env
 
-
-
 const devMode = !NODE_ENV || NODE_ENV !== 'production'
 
 module.exports = (env) => {
@@ -74,8 +72,8 @@ module.exports = (env) => {
       }),
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(devMode),
-        __SIDE_SIZE__: JSON.stringify(Number(env.size)),
-        __LINE_SIZE__: JSON.stringify(Number(env.line)),
+        __SIDE_SIZE__: env != null ? JSON.stringify(Number(env.size)) : null,
+        __LINE_SIZE__: env != null ? JSON.stringify(Number(env.line)) : null,
       }),
       new CheckerPlugin
     ],

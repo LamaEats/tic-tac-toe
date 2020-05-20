@@ -1,6 +1,7 @@
 import React, { useLayoutEffect } from 'react'
 import { Wrapper } from '../../../layouts'
-import { gameModule, gameSettings, useSelectorMap, checkWinner, confirmReset, useActionMap } from '../../../store'
+import { gameModule, gameSettings, checkWinner, confirmReset } from '../../../store'
+import { useActionMap, useSelectorMap } from '../../../lib/hooks/hooks'
 import { getHashKey } from '../../../utils'
 import { Cell } from '../Cell'
 import { GameMessage } from '../GameMessage'
@@ -19,7 +20,7 @@ const grid = (fieldSize: number): string[] => Array(fieldSize).fill(Array(fieldS
 
 const movesForWin = (fieldSize: number) => fieldSize * 2 - 1
 
-export const Board = () => {
+export const Board: React.FC = () => {
   const {
     marker,
     moves,

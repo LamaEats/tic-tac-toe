@@ -1,11 +1,14 @@
 import React, { useCallback, forwardRef } from 'react'
 import { useSelector } from 'react-redux'
-import { getCoordValue, switchPlayer, setToMap, useActionMap } from '../../../store'
+import { getCoordValue, switchPlayer, setToMap } from '../../../store'
+import { useActionMap } from '../../../lib'
 import { player } from '../../../types/app'
+import { withHashed } from '../../KeyboardContol/KeybordControl'
 import { CrossIcon } from './CrossIcon'
 import { ZeroIcon } from './ZeroIcon'
+
 import './styles.scss'
-import { withHashed } from '../../KeyboardContol/KeybordControl'
+
 
 const Icons: {[key in player]: React.FC } = {
   [player.CROSS]: CrossIcon,
@@ -16,7 +19,7 @@ export interface CellProps {
   coord: string
 }
 
-const Cell: React.ForwardRefExoticComponent<CellProps> = forwardRef(function Cell({ coord }, ref) {
+const Cell = forwardRef<HTMLDivElement, CellProps>(function Cell({ coord }, ref) {
   const actions = useActionMap({
     setToMap,
     switchPlayer

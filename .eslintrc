@@ -39,6 +39,9 @@
       "error",
       "only-multiline"
     ],
+    "quotes": ["error", "single", {
+      "allowTemplateLiterals": true
+    }],
     "semi": "off",
     "import/named": 2,
     "import/prefer-default-export": 0,

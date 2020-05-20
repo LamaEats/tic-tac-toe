@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef, useImperativeHandle, useCallback } from 'react'
-import { useSelectorMap, gameModule, useActionMap, confirmReset } from '../../../store'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { gameModule, confirmReset } from '../../../store'
+import { useActionMap, useSelectorMap } from '../../../lib/hooks/hooks'
 import './styles.scss'
 
 export interface GameMessageProps {

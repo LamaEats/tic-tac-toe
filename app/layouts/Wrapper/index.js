@@ -1,4 +1,0 @@
-export {
-  Wrapper
-}
-from './Wrapper'

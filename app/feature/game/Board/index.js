@@ -1,4 +1,0 @@
-export {
-  Board
-}
-from './Board'
