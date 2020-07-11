@@ -1,4 +1,4 @@
-import { Module, Getters, Actions, Handlers, Reducer, AnyAction } from './typings';
+import { Module, Getters, Actions, Handlers, Reducer } from './typings';
 import { createSelector } from './createSelector';
 import { namespacedActionCreator } from './actionCreator';
 import { namespacedActionHandler } from './actionHandler';
@@ -16,7 +16,7 @@ export const createModule = <S, N extends string>(namespace: N, initialState: S)
 
   const handlers = {
     reset: () => initialState
-  } as Handlers<S>;
+  } as unknown as Handlers<S>;
 
   stateKeys.forEach(key => {
     const selector = createSelector([get], res => res[key]);
@@ -31,9 +31,9 @@ export const createModule = <S, N extends string>(namespace: N, initialState: S)
       value: actionCreator(key as string, (value) => ({ value }))
     });
 
-    const callback: Reducer<S, AnyAction<typeof key>> = (state, action) => ({
+    const callback: Reducer<S> = (state, action) => ({
       ...state,
-      [key]: action.payload!.value
+      [key]: action.payload.value
     });
 
     Object.defineProperty(handlers, key, {

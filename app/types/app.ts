@@ -20,7 +20,7 @@ export interface State {
     lastCoord: string | null,
     gameIsOver: boolean,
     map: HistoryMap,
-    currentMove: player.CROSS,
+    currentMove: player,
     isRestartStopped: boolean,
   },
   [Module.Count]: {

@@ -6,10 +6,7 @@ import './styles.scss';
 import { State, player } from '../../../types/app';
 
 export const CountTable: React.FC = () => {
-  const {
-    winner,
-    counts
-  } = useSelectorMap({
+  const { winner, counts } = useSelectorMap({
     counts: (state: State) => [
       {
         count: countModule.get[player.CROSS](state),
@@ -21,17 +18,24 @@ export const CountTable: React.FC = () => {
       }
     ],
     winner: gameModule.get.winner
-  });
+  }) as {
+    winner: player,
+    counts: { count: number, type: player }[]
+  };
 
   const { incrementWins } = useActionMap({
     incrementWins: incrementWinCount
   });
 
-  useEffect(incrementWins, [winner]);
+  useEffect(() => {
+    incrementWins();
+  }, [winner]);
 
   return (
     <div className="count-table">
-      {counts.map(({ count, type }: { count: number, type: player }) => <CountTableItem title={type} count={count} key={type} />)}
+      {counts.map(
+        ({ count, type }) => <CountTableItem title={type} count={count} key={type} />
+      )}
     </div>
   );
 };

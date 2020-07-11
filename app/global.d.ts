@@ -1,10 +1,13 @@
 // / <reference no-default-lib="true" />
-declare let window: Window & typeof globalThis & {
-  __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: Function
-};
-declare let __SIDE_SIZE__: number;
-declare let __LINE_SIZE__: number;
-declare let __DEV__: boolean;
+declare interface Window extends Window {
+  __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any
+}
+
+/* eslint-disable no-underscore-dangle */
+declare const __SIDE_SIZE__: number;
+declare const __LINE_SIZE__: number;
+declare const __DEV__: boolean;
+/* eslint-enable no-underscore-dangle */
 
 declare interface HTMLElement extends Element {
   click: () => void;

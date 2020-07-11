@@ -57,6 +57,7 @@ export const GameMessage: React.FC<GameMessageProps> = ({ maxCount }) => {
             onClick={() => onClickHandler(true)}
             tabIndex={-1}
             ref={btnOk}
+            type="button"
           >
             Restart
           </button>
@@ -65,6 +66,7 @@ export const GameMessage: React.FC<GameMessageProps> = ({ maxCount }) => {
             onClick={() => onClickHandler(false)}
             tabIndex={-1}
             ref={btnCancel}
+            type="button"
           >
             Cancel
           </button>

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useCallback, forwardRef } from 'react';
 import { useSelector } from 'react-redux';
 import { getCoordValue, switchPlayer, setToMap } from '../../../store';
@@ -10,7 +11,7 @@ import { ZeroIcon } from './ZeroIcon';
 import './styles.scss';
 
 
-const Icons: {[key in player]: React.FC } = {
+const Icons: {[key in player]: React.FunctionComponent } = {
   [player.CROSS]: CrossIcon,
   [player.ZEROS]: ZeroIcon
 };
@@ -38,9 +39,9 @@ const Cell = forwardRef<HTMLDivElement, CellProps>(function Cell({ coord }, ref)
 
   const Icon = Icons[marker] || (() => null);
 
-  Icon.displayName = marker ? `${marker[0].toUpperCase()}${marker.slice(1)}` : 'Blank';
-
   return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div className="cell" ref={ref} tabIndex={-1} onClick={onClickHandler}>
       <Icon />
     </div>

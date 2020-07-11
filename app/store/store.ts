@@ -1,11 +1,5 @@
 import { createModule } from '../lib';
-import { player, Module } from '../types/app';
-
-export type GameModule = typeof gameModule;
-export type CountModule = typeof countModule;
-export type GameSettignsModule = typeof gameSettings;
-
-export type Modules = GameModule | CountModule | GameSettignsModule;
+import { player, Module, State } from '../types/app';
 
 const ensureValue = <T>(value: T, defaultValue: T): T => {
   if (value != null) {
@@ -15,7 +9,7 @@ const ensureValue = <T>(value: T, defaultValue: T): T => {
   return defaultValue;
 };
 
-export const gameModule = createModule(Module.Main, {
+const gameInitialState: State['tic-tac-toe'] = {
   winner: null,
   moves: 0,
   lastCoord: null,
@@ -23,7 +17,9 @@ export const gameModule = createModule(Module.Main, {
   map: {},
   currentMove: player.CROSS,
   isRestartStopped: false,
-});
+};
+
+export const gameModule = createModule(Module.Main, gameInitialState);
 
 export const countModule = createModule(Module.Count, {
   [player.CROSS]: 0,
@@ -31,8 +27,11 @@ export const countModule = createModule(Module.Count, {
 });
 
 export const gameSettings = createModule(Module.Settings, {
-  // eslint-disable-next-line no-undef
-  side: ensureValue(__SIDE_SIZE__, 3),
-  // eslint-disable-next-line no-undef
-  line: ensureValue(__LINE_SIZE__, 3)
+  side: ensureValue<number>(__SIDE_SIZE__, 3),
+  line: ensureValue<number>(__LINE_SIZE__, 3)
 });
+
+export type GameModule = typeof gameModule;
+export type CountModule = typeof countModule;
+export type GameSettignsModule = typeof gameSettings;
+export type Modules = GameModule | CountModule | GameSettignsModule;

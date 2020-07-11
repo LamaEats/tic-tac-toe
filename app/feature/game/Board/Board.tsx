@@ -3,10 +3,12 @@ import { Wrapper } from '../../../layouts';
 import { gameModule, gameSettings, checkWinner, confirmReset } from '../../../store';
 import { useActionMap, useSelectorMap } from '../../../lib/hooks/hooks';
 import { getHashKey } from '../../../utils';
+import { player } from '../../../types/app';
 import { Cell } from '../Cell';
 import { GameMessage } from '../GameMessage';
 import { CountTable } from '../CountTable';
 import './styles.scss';
+
 
 const { get } = gameModule;
 
@@ -33,7 +35,13 @@ export const Board: React.FC = () => {
     winner: get.winner,
     lastCoord: get.lastCoord,
     size: gameSettings.get.side,
-  });
+  }) as {
+    marker: player
+    moves: number
+    winner: player
+    lastCoord: string
+    size: number
+  };
 
   const actions = useActionMap({
     confirmReset,

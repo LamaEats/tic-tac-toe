@@ -3,25 +3,14 @@ import {
   useDispatch
 } from 'react-redux';
 import { AnyAction } from 'redux';
+import { Selector } from '../mediator';
 
-const useHookMapper = (fn) => (map) => {
-  const mapKeys = Object.keys(map);
+const prependFns = <M>(map: M): Array<M[keyof M] & Function> => {
+  const keys = Object.keys(map) as (keyof M)[];
+  const nextMap = [];
 
-  if (!mapKeys.length) {
-    return {};
-  }
-
-  if (mapKeys.length === 1) {
-    const key = mapKeys[0];
-    return {
-      [key]: fn(map[key])
-    };
-  }
-
-  const resultMap = {};
-
-  for (let i = 0; i < mapKeys.length; i += 1) {
-    const key = mapKeys[i];
+  for (let i = 0; i < keys.length; i += 1) {
+    const key = keys[i];
     const mappedFn = map[key];
 
     if (typeof mappedFn !== 'function') {
@@ -31,11 +20,38 @@ const useHookMapper = (fn) => (map) => {
       continue;
     }
 
-    resultMap[key] = fn(mappedFn);
+    Object.defineProperty(mappedFn, 'name', {
+      value: key
+    });
+
+    // @ts-ignore
+    nextMap.push(mappedFn);
   }
 
-  return resultMap;
+  return nextMap;
 };
+
+const useHookMapper = <F extends (...args: any) => any>(fn: F) =>
+  <M>(map: M): {[K in keyof M]?: ReturnType<F>} => {
+    const mapKeys = Object.keys(map) as (keyof M)[];
+
+    if (!mapKeys.length) {
+      return {};
+    }
+
+    const mapFns = prependFns(map);
+
+    const resultMap = {};
+
+    for (const mapFn of mapFns) {
+      if (typeof fn === 'function') {
+        // @ts-ignore
+        resultMap[mapFn.name] = fn(mapFn);
+      }
+    }
+
+    return resultMap;
+  };
 
 
 const useActions = (fn: (...args: any[]) => AnyAction ) => {
@@ -43,8 +59,8 @@ const useActions = (fn: (...args: any[]) => AnyAction ) => {
   return (...args: any[]) => dispatch(fn(...args));
 };
 
-export const useSelectorMap = (map) => {
-  return useHookMapper(fn => useSelector(fn))(map);
-};
+const useSelectors = <S, R>(fn: Selector<S, R>) => useSelector(fn);
+
+export const useSelectorMap = useHookMapper(useSelectors);
 
 export const useActionMap = useHookMapper(useActions);

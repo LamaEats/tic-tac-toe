@@ -23,9 +23,9 @@ export const configureStore = (preloadState = {}) => {
   );
 
   const redusers = {
-    [gameModule]: gameModule.reducer,
-    [countModule]: countModule.reducer,
-    [gameSettings]: gameSettings.reducer
+    [gameModule.toString()]: gameModule.reducer,
+    [countModule.toString()]: countModule.reducer,
+    [gameSettings.toString()]: gameSettings.reducer
   };
 
   return createStore(combineReducers(redusers), preloadState, enhancers);

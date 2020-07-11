@@ -117,5 +117,6 @@ export const withHashed = <P extends { coord: string }>(WrappedComponent: React.
     }
   }, [ctx, cellRef]);
 
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <WrappedComponent {...props} ref={cellRef} />;
 };
