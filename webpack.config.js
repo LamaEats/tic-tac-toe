@@ -63,7 +63,8 @@ module.exports = (env) => {
       new HtmlWebpackPlugin({
         scriptLoading: 'defer',
         template: 'static/index.html',
-        inject: false
+        inject: false,
+        title: 'Tic Tac Toe Game',
       }),
       devMode && new webpack.HotModuleReplacementPlugin,
       new MiniCssExtractPlugin({
