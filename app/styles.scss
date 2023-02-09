@@ -1,10 +1,9 @@
-@import "~normalize.css/normalize.css";
+@import '~normalize.css/normalize.css';
 
 :root {
-  --main-color: $main-text-color;
   font-family: 'Megrim', cursive;
   font-size: 24px;
-  color: var(--main-color)
+  color: $main-text-color;
 }
 
 h2 {

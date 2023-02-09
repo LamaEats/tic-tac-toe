@@ -1,1 +1,1 @@
-export { CountTable } from './CountTable';
+export { CountTable } from './CountTable'

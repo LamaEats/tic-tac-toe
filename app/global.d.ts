@@ -4,12 +4,12 @@ declare interface Window extends Window {
 }
 
 /* eslint-disable no-underscore-dangle */
-declare const __SIDE_SIZE__: number;
-declare const __LINE_SIZE__: number;
-declare const __DEV__: boolean;
+declare const __SIDE_SIZE__: number
+declare const __LINE_SIZE__: number
+declare const __DEV__: boolean
 /* eslint-enable no-underscore-dangle */
 
 declare interface HTMLElement extends Element {
-  click: () => void;
-  focus: () => void;
+  click: () => void
+  focus: () => void
 }

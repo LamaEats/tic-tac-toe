@@ -1,9 +1,9 @@
-import React from 'react';
-import { player } from 'app/types/app';
+import React from 'react'
+import { player } from '../../../types/app'
 
 export interface CountTableItemProps {
-  title: player,
-  count: number,
+  title: player
+  count: number
 }
 
 export const CountTableItem: React.FC<CountTableItemProps> = ({ title, count }) => (
@@ -11,4 +11,4 @@ export const CountTableItem: React.FC<CountTableItemProps> = ({ title, count }) 
     <h4>{title}</h4>
     <p>{count}</p>
   </div>
-);
+)

@@ -1,6 +1,5 @@
-
-import React, { createContext, useEffect, useContext, useState, useCallback } from 'react';
-import { parseHashKey, getHashKey } from '../../utils';
+import React, { createContext, useEffect, useContext, useCallback, useRef } from 'react'
+import { parseHashKey, getHashKey } from '../../utils'
 
 enum keyEvent {
   Space = 'Space',
@@ -8,115 +7,114 @@ enum keyEvent {
   ArrowRight = 'ArrowRight',
   ArrowUp = 'ArrowUp',
   ArrowDown = 'ArrowDown',
-  Enter = 'Enter'
+  Enter = 'Enter',
 }
 
 interface Hash {
-  register: (key: string, ref: React.RefObject<HTMLElement>) => void,
-  element: (key: string) => React.RefObject<HTMLElement>,
-  map: Map<string, React.RefObject<HTMLElement>>,
+  register: (key: string, ref: React.RefObject<HTMLElement>) => void
+  element: (key: string) => HTMLElement
+  map: Map<string, React.RefObject<HTMLElement>>
 }
 
 const hash: Hash = (() => {
-  const cache = new Map();
+  const cache = new Map()
   const register = (key: string, ref: React.RefObject<HTMLElement>) => {
-    cache.set(key, ref);
-  };
+    cache.set(key, ref)
+  }
 
-  const element = (key: string): React.RefObject<HTMLElement> => cache.get(key);
-  
+  const element = (key: string): HTMLElement => cache.get(key).current
+
   return {
     get map() {
-      return cache;
+      return cache
     },
     register,
-    element
-  };
-})();
+    element,
+  }
+})()
 
-const Context = createContext(hash);
+const Context = createContext(hash)
+
+const increment = (value: number, fallback: number): number => (value + 1 > fallback ? fallback : value + 1)
+const decrement = (value: number, fallback: number): number => (value - 1 < fallback ? fallback : value - 1)
 
 const KeybordHandler: React.FC = ({ children }) => {
-  const ctx = useContext(Context);
-  const [focused, setFocused] = useState<string | null>(null);
+  const ctx = useContext(Context)
+  const lastCoords = useRef('1:1')
 
-  const size = Math.sqrt(ctx.map.size);
+  const keyUpHandler = useCallback(
+    ({ code }) => {
+      if ([keyEvent.Space, keyEvent.Enter].includes(code)) {
+        const elem = ctx.element(lastCoords.current)
 
-  const keyUpHandler = useCallback(({ code }) => {
-    if ([keyEvent.Space, keyEvent.Enter].includes(code)) {
-      const elem = ctx.element(focused!) as React.RefObject<HTMLElement>;
+        if (elem != null) {
+          elem.click()
+        }
 
-      if (elem?.current != null) {
-        elem.current.click();
+        return
       }
 
-      return;
-    }
+      const size = Math.sqrt(ctx.map.size) - 1
+      let [x, y] = parseHashKey(lastCoords.current)
 
-    let [x, y] = parseHashKey(focused!);
+      if (code === keyEvent.ArrowDown) {
+        y = increment(y, size)
+      }
 
-    if (code === keyEvent.ArrowDown) {
-      y = y + 1 > size ? size : y + 1;
-    }
+      if (code === keyEvent.ArrowUp) {
+        y = decrement(y, 0)
+      }
 
-    if (code === keyEvent.ArrowUp) {
-      y = y - 1 < 0 ? 0 : y - 1;
-    }
+      if (code === keyEvent.ArrowRight) {
+        x = increment(x, size)
+      }
 
-    if (code === keyEvent.ArrowRight) {
-      x = x + 1 > size ? size : x + 1;
-    }
+      if (code === keyEvent.ArrowLeft) {
+        x = decrement(x, 0)
+      }
 
-    if (code === keyEvent.ArrowLeft) {
-      x = x - 1 < 0 ? 0 : x - 1;
-    }
+      const resultCoords = getHashKey(x, y)
 
-    setFocused(getHashKey(x, y));
-  }, [focused]);
+      if (resultCoords === lastCoords.current) {
+        return;
+      }
+
+      lastCoords.current = resultCoords
+
+      const elem = ctx.element(resultCoords)
+
+      if (elem != null) {
+        elem.focus()
+      }
+    },
+    [lastCoords.current],
+  )
 
   useEffect(() => {
-    window.addEventListener('keyup', keyUpHandler);
+    ctx.element(lastCoords.current).focus()
+    window.addEventListener('keyup', keyUpHandler)
 
     return () => {
-      window.removeEventListener('keyup', keyUpHandler);
-    };
-  }, [ctx, focused]);
-
-  useEffect(() => {
-    if (focused == null) {
-      setFocused('1:1');
+      window.removeEventListener('keyup', keyUpHandler)
     }
+  }, [])
 
-    if (focused) {
-      const elem = ctx.element(focused) as React.RefObject<HTMLElement>;
-
-      if (elem && elem.current != null) {
-        elem.current.focus();
-      }
-    }
-  }, [focused]);
-
-  return <>{children}</>;
-};
+  return <>{children}</>
+}
 
 export const KeybordControl: React.FC = ({ children }) => (
   <Context.Provider value={hash}>
-    <KeybordHandler>
-      {children}
-    </KeybordHandler>
+    <KeybordHandler>{children}</KeybordHandler>
   </Context.Provider>
-);
+)
 
 export const withHashed = <P extends { coord: string }>(WrappedComponent: React.ComponentType<P>) => (props: P) => {
   const cellRef = React.createRef<HTMLElement>();
   const ctx = useContext(Context);
 
   useEffect(() => {
-    if (cellRef) {
-      ctx.register(props.coord, cellRef);
-    }
-  }, [ctx, cellRef]);
+    ctx.register(props.coord, cellRef)
+  })
 
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <WrappedComponent {...props} ref={cellRef} />;
+  return <WrappedComponent {...props} ref={cellRef} />
 };
