@@ -1,0 +1,24 @@
+name: Build
+on: push
+jobs:
+  setup:
+    name: Checkout
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Prepare repository
+        run: git fetch --unshallow --tags
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Setup packages
+        run: |
+          npm ci --prefer-offline
+          
+      - name: Build
+        run: npm run build
