@@ -1,28 +1,28 @@
-import { PayloadCreator, ActionCreator } from './typings';
+import { PayloadCreator, ActionCreator } from './typings'
 
-export function actionCreator <T extends string, P>(type: T, payloadCreator: PayloadCreator<P>): ActionCreator<P> {
+export function actionCreator<T extends string, P>(type: T, payloadCreator: PayloadCreator<P>): ActionCreator<P> {
   const action = (arg: P) => {
-    const payload = payloadCreator(arg);
+    const payload = payloadCreator(arg)
 
     if (payload == null) {
-      return { type };
+      return { type }
     }
 
     return {
       type,
-      payload
-    };
-  };
+      payload,
+    }
+  }
 
-  action.toString = () => type;
+  action.toString = () => type
 
-  return action;
+  return action
 }
 
-export function namespacedActionCreator <N extends string>(namespace: N) {
+export function namespacedActionCreator<N extends string>(namespace: N) {
   return <T extends string, P>(type: T, payloadCreator: PayloadCreator<P>) => {
-    const namespacedType = `${namespace}/${type}`;
+    const namespacedType = `${namespace}/${type}`
 
-    return actionCreator(namespacedType, payloadCreator);
-  };
+    return actionCreator(namespacedType, payloadCreator)
+  }
 }

@@ -90,7 +90,7 @@ module.exports = (env) => {
           loader: 'babel-loader'
         },
         {
-          test: /\.(sc|c)ss$/,
+          test: /\.scss$/,
           use: [{
               loader: MiniCssExtractPlugin.loader,
               options: {

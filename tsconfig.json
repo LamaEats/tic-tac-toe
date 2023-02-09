@@ -8,7 +8,6 @@
       "ESNext"
     ],
     "outDir": "dist",
-    "baseUrl": ".",
     "allowJs": true,
     "isolatedModules": true,
     "strict": true,
@@ -27,6 +26,7 @@
     "noEmitOnError": true,
     "skipLibCheck": true,
     "declaration": false,
+    "rootDir": "./app"
   },
   "include": ["app"]
 }
